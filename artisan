@@ -1,0 +1,83 @@
+#!/usr/bin/env php
+<?php
+
+use TheFramework\Console\CommandInterface;
+
+require __DIR__ . '/vendor/autoload.php';
+
+define('BASE_PATH', __DIR__);
+
+function color($text, $code)
+{
+    return "\033[{$code}m{$text}\033[0m";
+}
+
+function showHeader()
+{
+    echo color("═════  TheFramework v1.0.0  ═════", "38;5;39") . PHP_EOL;
+    echo color("═════ BY Chandra Tri Antomo ═════", "38;5;39") . PHP_EOL . PHP_EOL;
+}
+
+// Load all commands dynamically
+$commandsDir = __DIR__ . '/app/Console/Commands/';
+$commandFiles = glob($commandsDir . '*.php');
+
+$commands = [];
+
+echo color("➤ INFO  Memuat perintah", "38;5;39");
+for ($i = 0; $i < 3; $i++) {
+    echo ".";
+    usleep(200000);
+}
+echo "\033[0m\n";
+
+foreach ($commandFiles as $file) {
+    require_once $file;
+    $className = 'TheFramework\\Console\\Commands\\' . basename($file, '.php');
+    if (class_exists($className)) {
+        $instance = new $className();
+        if ($instance instanceof CommandInterface) {
+            $commands[$instance->getName()] = $instance;
+        }
+    }
+}
+
+$args = $argv;
+array_shift($args); // remove script name
+$commandName = $args[0] ?? 'list';
+array_shift($args);
+
+if ($commandName === 'list') {
+    showHeader();
+    echo color("Penggunaan:", "38;5;39") . " php artisan [perintah]\n\n";
+    echo color("Perintah yang tersedia:", "38;5;39") . "\n";
+    echo str_repeat("─", 60) . "\n";
+    ksort($commands); // Sort commands alphabetically
+    foreach ($commands as $name => $cmd) {
+        echo "  " . color(str_pad($name, 25), "38;5;28") . $cmd->getDescription() . "\n";
+    }
+    echo str_repeat("─", 60) . "\n";
+    exit;
+}
+
+if (!isset($commands[$commandName])) {
+    showHeader();
+    echo color("✖ ERROR  Perintah [$commandName] tidak ditemukan.", "38;5;124") . PHP_EOL . PHP_EOL;
+    // Suggest similar commands
+    $suggestions = [];
+    foreach ($commands as $name => $cmd) {
+        if (levenshtein($commandName, $name) <= 3) {
+            $suggestions[] = $name;
+        }
+    }
+    if (!empty($suggestions)) {
+        echo color("Mungkin Anda maksud:", "38;5;214") . "\n";
+        foreach ($suggestions as $suggestion) {
+            echo "  " . color($suggestion, "38;5;28") . "\n";
+        }
+    }
+    echo PHP_EOL . color("Jalankan php artisan list untuk melihat perintah yang tersedia", "38;5;214") . PHP_EOL;
+    exit(1);
+}
+
+$commands[$commandName]->run($args);

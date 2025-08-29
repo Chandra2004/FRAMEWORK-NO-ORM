@@ -1,0 +1,41 @@
+{
+    "name": "vendor/project",
+    "description": "Your project description",
+    "autoload": {
+        "psr-4": {
+            "TheFramework\\": "app/",
+            "TheFramework\\Console\\": "app/Console/",
+            "TheFramework\\Console\\Commands\\": "app/Console/Commands/",
+            "TheFramework\\Http\\Controllers\\": "app/Http/Controllers/",
+            "TheFramework\\Middleware\\": "app/Middleware/",
+            "TheFramework\\Models\\": "app/Models/",
+            "TheFramework\\Database\\Migrations\\": "database/migrations/",
+            "TheFramework\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Your Name",
+            "email": "your-email@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "vlucas/phpdotenv": "^5.6",
+        "fakerphp/faker": "^1.24",
+        "illuminate/view": "^12.17",
+        "illuminate/events": "^12.17",
+        "illuminate/filesystem": "^12.17",
+        "respect/validation": "^2.4",
+        "monolog/monolog": "^3.9",
+        "defuse/php-encryption": "^2.4"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master"
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "TheFramework\\App\\Router::cacheRoutes"
+        ]
+    }
+}
