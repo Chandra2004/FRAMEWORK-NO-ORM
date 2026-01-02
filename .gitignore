@@ -1,17 +1,31 @@
-# Ignore environment file
+# Ignore environment file (Contains sensitive credentials)
 .env
+.env.backup
+.env.production
 
 # Ignore Composer dependencies
-/vendor/
+/vendor
 
-/vendor/**
+# Ignore storage folder (logs, cache, uploads)
+app/Storage/*
+!app/Storage/.gitignore
+private-uploads/*
+!private-uploads/.gitignore
 
-# Ignore storage folder (e.g., uploads, logs, cache)
-app/Storage/
-app/Storage/**
+# Ignore Bootstrap Cache (Route cache, etc)
+bootstrap/cache/*
+!bootstrap/cache/.gitignore
 
-# Optional: Ignore system files
+# Ignore system files
 *.log
 *.tmp
 .DS_Store
 Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Ignore IDE specific files
+.idea
+.vscode
+*.swp
+*.swo

@@ -32,6 +32,28 @@ class Seeder
         }
     }
 
+    public function call($class)
+    {
+        // Resolve class name (bisa terima string atau array)
+        $classes = is_array($class) ? $class : [$class];
+
+        foreach ($classes as $className) {
+            if (!class_exists($className)) {
+                // Coba namespace default jika belum ada
+                $className = "Database\\Seeders\\" . $className;
+            }
+
+            if (class_exists($className)) {
+                $seeder = new $className();
+                // Tampilkan info di console (optional, but nice)
+                echo "\033[38;5;245m   ➤ Running: " . basename(str_replace('\\', '/', $className)) . "\033[0m\n";
+                $seeder->run();
+            } else {
+                echo "\033[31m[Error] Seeder class not found: $className\033[0m\n";
+            }
+        }
+    }
+
     private static function insertRow(array $row)
     {
         $columns = implode(", ", array_keys($row));

@@ -7,9 +7,16 @@ use TheFramework\App\SessionManager;
 use TheFramework\Http\Controllers\Services\FileController;
 use TheFramework\Middleware\CsrfMiddleware;
 use TheFramework\Middleware\WAFMiddleware;
+use TheFramework\App\Container;
+use TheFramework\App\Database;
 
 SessionManager::startSecureSession();
 Config::loadEnv();
+
+// Register Container Bindings
+Container::getInstance()->singleton(Database::class, function () {
+    return Database::getInstance();
+});
 
 // Security headers
 header('X-Powered-By: Native-Chandra');

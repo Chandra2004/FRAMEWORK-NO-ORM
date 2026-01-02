@@ -45,7 +45,7 @@ class Database
                 PDO::ATTR_PERSISTENT => true,
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4",
+                \Pdo\Mysql::ATTR_INIT_COMMAND => "SET NAMES utf8mb4",
                 PDO::ATTR_EMULATE_PREPARES => false
             ]);
         } catch (PDOException $e) {
@@ -115,7 +115,7 @@ class Database
 
             error_log($errorMessage);
 
-            throw new PDOException($errorMessage, (int)$e->getCode(), $e);
+            throw new PDOException($errorMessage, (int) $e->getCode(), $e);
         }
     }
 
@@ -186,7 +186,9 @@ class Database
         return $this->dbh->quote($value);
     }
 
-    private function __clone() {}
+    private function __clone()
+    {
+    }
 
     public function __wakeup()
     {

@@ -1,257 +1,249 @@
-# THE-FRAMEWORK - MVC Native PHP Framework
+# THE-FRAMEWORK 🚀
 
-## 📌 Pengenalan
+[![PHP](https://img.shields.io/badge/PHP-8.3%2B-777BB4.svg?style=flat&logo=php&logoColor=white)](https://php.net)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Author](https://img.shields.io/badge/Author-Chandra%20Tri%20A-blue)](https://github.com/Chandra2004)
 
-**THE-FRAMEWORK** adalah framework PHP berbasis MVC (Model-View-Controller) yang dibuat oleh **Chandra Tri A**. Framework ini dirancang untuk memberi struktur yang bersih dan terorganisir pada aplikasi PHP, dengan fitur-fitur utama:
+**THE-FRAMEWORK** adalah framework PHP modern berbasis arsitektur **MVC (Model-View-Controller)** yang dirancang dari nol (_from scratch_) tanpa bergantung pada framework raksasa. Framework ini ringan, cepat, namun memiliki fitur setara framework modern seperti Laravel, namun dengan pendekatan **Native SQL (No ORM)** untuk performa maksimal dan pembelajaran mendalam tentang database.
 
-- Manajemen namespace dinamis PSR‑4
-- Blade Templating
-- Migrasi dan seeding database
-- Artisan CLI untuk scaffolding dan manajemen proyek
-- Support folder `resources/Views` dan fallback ke `services/`
-- Upload file terstruktur di folder `private-uploads/`
+Cocok untuk:
 
-## 🚀 Instalasi
+- Tugas Kuliah / Skripsi
+- Pembelajaran Arsitektur Framework
+- Aplikasi Web UMKM / Enterprise Skala Menengah
 
-### Langkah-langkah
+---
 
-1. **Clone Proyek**:
-   ```bash
-   git clone https://github.com/Chandra2004/FRAMEWORK.git
-   cd FRAMEWORK
-   ```
+## ✨ Fitur Unggulan
 
-2. **Install Dependensi**:
-   ```bash
-   composer install
-   ```
+- **🛡️ Secure & Robust**
 
-3. **Setup Proyek Awal**:
-   ```bash
-   php artisan setup
-   ```
-   - Perintah ini akan membuat `.env`, dan mempersiapkan struktur awal.
+  - Built-in **CSRF Protection**
+  - **WAF (Web Application Firewall)** Middleware
+  - Secure Session Management
+  - SQL Injection Protection (via PDO Binding)
 
-4. **Jalankan Server**:
-   ```bash
-   php artisan serve
-   ```
-   Akses di `http://localhost:8080`.
+- **🏗️ Modern Architecture**
 
-### Persyaratan
-- PHP 8.0+
+  - **MVC Pattern** yang ketat
+  - **Service Container (Dependency Injection)**
+  - **Middleware** System
+  - **Blade Templating Engine** (menggunakan `illuminate/view`)
+
+- **🛠️ Powerful CLI (Artisan)**
+
+  - `php artisan serve` - Local development server
+  - `php artisan make:controller` - Generate Controller
+  - `php artisan make:model` - Generate Model
+  - `php artisan make:migration` - Database Config as Code
+  - `php artisan make:seeder` - Database Seeding dengan Timestamp Order
+  - `php artisan db:seed` - Eksekusi Seeder cerdas
+
+- **💾 Database (No ORM)**
+  - Full Control dengan **Raw SQL** yang aman
+  - Query Wrapper (`query`, `bind`, `resultSet`, `single`)
+  - **Migration System** (Create & Rollback Tables)
+  - **Seeding System** (Dummy Data Generator dengan Faker)
+
+---
+
+## 🚀 Memulai (Getting Started)
+
+### 1. Prasyarat
+
+Pastikan komputer kamu sudah terinstall:
+
+- PHP >= 8.3
 - Composer
-- MySQL (atau kompatibel)
+- MySQL / MariaDB
 
-## 📂 Struktur Direktori
-```
-FRAMEWORK/
-├── app/
-│   ├── App/
-│   │   ├── Blueprint.php
-│   │   ├── CacheManager.php
-│   │   ├── Config.php
-│   │   ├── Database.php
-│   │   ├── Logging.php
-│   │   ├── Model.php
-│   │   ├── QueryBuilder.php
-│   │   ├── RateLimiter.php
-│   │   ├── Router.php
-│   │   ├── Schema.php
-│   │   ├── SessionManager.php
-│   │   └── View.php
-│   ├── Config/
-│   │   ├── EmailHandler.php
-│   │   └── ImageHandler.php
-│   ├── Console/
-│   │   ├── Commands/
-│   │   │   └── ServeCommand.php
-│   │   └── CommandInterface.php
-│   ├── Database/
-│   │   ├── Seeder.php
-│   │   └── Migration.php
-│   ├── Helpers/
-│   │   ├── Helper.php
-│   │   └── helpers.php
-│   ├── Http/
-│   │   ├── Controllers/
-│   │   │   ├── Services/
-│   │   │   │   ├── DebugController.php
-│   │   │   │   ├── ErrorController.php
-│   │   │   │   └── FileController.php
-│   │   │   ├── Controller.php
-│   │   │   └── HomeController.php
-│   ├── Middleware/
-│   │   ├── AuthMiddleware.php
-│   │   ├── CsrfMiddleware.php
-│   │   ├── Middleware.php
-│   │   ├── ValidationMiddleware.php
-│   │   └── WAFMiddleware.php
-│   ├── Models/
-│   │   ├── Seeders/
-│   │   │   └── UserSeeder.php
-│   │   └── HomeModel.php                 
-│   └── BladeInit.php
-├── bootstrap/
-│   ├── app.php
-├── database/
-│   ├── migrations/
-│   │   └── UsersTable.php
-│   └── seeders/
-│       └── UserSeeder.php
-├── private-uploads/
-│   ├── dummy/
-│   └── user-pictures/
-├── resources/
-│   ├── css/
-│   ├── js/
-│   └── Views/
-│       └── (...file blade di sini)
-├── routes/
-│   ├── web.php
-├── services/
-│   ├── error/
-│   │   ├── 404.blade.php
-│   │   ├── 500.blade.php
-│   │   ├── maintenance.blade.php
-│   │   └── payment.blade.php
-│   └── debug/
-│       ├── exception.blade.php
-│       └── fatal.blade.php
-├── vendor/
-├── .env
-├── .env.example
-├── .gitignore
-├── .htaccess 
-├── index.php 
-├── artisan
-├── composer.json
-├── composer.lock
-└── README.md
+### 2. Instalasi
+
+Clone repository ini:
+
+```bash
+git clone https://github.com/Chandra2004/FRAMEWORK-NO-ORM.git
+cd FRAMEWORK-NO-ORM
 ```
 
-## 🔧 Perintah Artisan
+Install dependensi via Composer:
+
+```bash
+composer install
+```
+
+Setup Environment otomatis:
+
+```bash
+php artisan setup
+```
+
+> Perintah ini akan membuat file `.env`, generate `APP_KEY`, dan `ENCRYPTION_KEY`.
+
+### 3. Konfigurasi Database
+
+Buka file `.env`, sesuaikan dengan kredensial database kamu:
+
 ```ini
-  config:clear             Menghapus cache konfigurasi
-  make:controller          Membuat kelas controller baru
-  make:middleware          Membuat kelas middleware baru
-  make:migration           Membuat file migrasi baru
-  make:model               Membuat kelas model baru
-  make:seeder              Membuat file seeder baru di database/seeders
-  migrate                  Menjalankan migrasi database
-  migrate:fresh            Menghapus semua tabel dan menjalankan ulang migrasi
-  migrate:rollback         Membatalkan semua migrasi dengan menghapus semua tabel database
-  route:cache              Menyimpan cache rute aplikasi
-  seed                     Menjalankan seeder database
-  serve                    Menjalankan aplikasi pada server pengembangan PHP
-  setup                    Menjalankan pengaturan awal (env, kunci, autoload)
-```
-> Semua file yang dihasilkan akan menggunakan namespace sesuai PSR‑4 di `composer.json`.
-
-## 🌐 Konfigurasi ENV
-
-Sesuaikan file `.env`:
-```ini
-APP_ENV=local
-APP_DEBUG=false
-APP_NAME=TheFramework
-
-BASE_URL=http://localhost:8080
-
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_NAME=the_framework
+DB_NAME=nama_database_kamu
 DB_USER=root
 DB_PASS=
-
-DB_TIMEZONE=+07:00
-
-ENCRYPTION_KEY=generated_key_here
-APP_KEY=generated_app_key_here
-
 ```
 
-## 🌐 Konfigurasi Jika Menggunakan Google Project IDX
+> **Penting:** Buat database kosong di MySQL/phpMyAdmin sesuai `DB_NAME` sebelum lanjut.
 
-Sesuaikan file `idx/dev.nix`:
+### 4. Jalankan Migrasi & Seeder (Opsional)
+
+Jika ingin tabel dan data dummy otomatis:
+
+```bash
+php artisan migrate
+php artisan db:seed
 ```
-{ pkgs, ... }: {
-  channel = "stable-24.05";
 
-  packages = [
-    pkgs.php83
-    pkgs.php83Extensions.curl
-    pkgs.php83Extensions.fileinfo
-    pkgs.php83Extensions.mbstring
-    pkgs.php83Extensions.openssl
-    pkgs.php83Extensions.pdo_mysql
-    pkgs.php83Extensions.tokenizer
-    pkgs.php83Extensions.xml
-    pkgs.php83Packages.composer
-    pkgs.nodejs_20
-    pkgs.python3
-    pkgs.tailwindcss
-  ];
+### 5. Jalankan Aplikasi
 
-services.mysql = {
-  enable = true;
-  package = pkgs.mariadb;
-};
+```bash
+php artisan serve
+```
 
+Akses di browser: `http://localhost:8080`
 
-  env = {
-    PHP_PATH = "${pkgs.php83}/bin/php";
-    COMPOSER_ALLOW_SUPERUSER = "1";
-  };
+---
 
-  idx = {
-    extensions = [
-      # Laravel & Blade
-      "amirmarmul.laravel-blade-vscode"
-      "onecentlin.laravel-blade"
-      "shufo.vscode-blade-formatter"
-      "codingyu.laravel-goto-view"
-      "stef-k.laravel-goto-controller"
-      "ahinkle.laravel-model-snippets"
+## 📖 Panduan Penggunaan (Documentation)
 
-      # Tailwind & Frontend
-      "bradlc.vscode-tailwindcss"
-      "imgildev.vscode-tailwindcss-snippets"
-      "esbenp.prettier-vscode"
+### 1. Routing (`routes/web.php`)
 
-      # PHP & Debugging
-      "bmewburn.vscode-intelephense-client"
-      "xdebug.php-debug"
+Routing menggunakan sintaks modern dan mendukung Grouping.
 
-      # Database
-      "cweijan.vscode-database-client2"
-      "formulahendry.vscode-mysql"
+```php
+use TheFramework\App\Router;
+use TheFramework\Http\Controllers\HomeController;
 
-      # API Testing
-      "rangav.vscode-thunder-client"
+// Basic Route
+Router::add('GET', '/', HomeController::class, 'index');
 
-      # Utils
-      "yandeu.five-server"
-    ];
+// Route dengan Parameter
+Router::add('GET', '/user/{id}', UserController::class, 'show');
 
-    previews = {
-      enable = true;
-      previews = {
-        web = {
-          command = ["php" "artisan" "serve" "--host=0.0.0.0" "--port=$PORT"];
-          manager = "web";
-        };
-      };
-    };
-  };
+// Grouping (Prefix & Middleware)
+Router::group(['prefix' => '/admin', 'middleware' => [AuthMiddleware::class]], function() {
+    Router::add('GET', '/dashboard', AdminController::class, 'index');
+});
+```
+
+### 2. Controller
+
+Gunakan command untuk membuat controller:
+
+```bash
+php artisan make:controller ProductController
+```
+
+Controller mendukung **Dependency Injection**. Contoh:
+
+```php
+namespace TheFramework\Http\Controllers;
+
+use TheFramework\App\Database;
+
+class ProductController {
+    private $db;
+
+    // Database otomatis di-inject oleh Container
+    public function __construct(Database $db) {
+        $this->db = $db;
+    }
+
+    public function index() {
+        // Logika coding...
+    }
 }
 ```
 
-## 🤝 Kontribusi
+### 3. Database & Model (No ORM)
 
-Kami terbuka untuk kontribusi! Silakan buat pull request atau hubungi:
+Framework ini sengaja tidak menggunakan Eloquent/ORM agar kamu paham SQL.
 
-- WhatsApp: 085730676143
-- Email   : chandratriantomo123@gmail.com
-- Website : https://www.the-framework.ct.ws
+**Membuat Model:**
+
+```bash
+php artisan make:model ProductModel
+```
+
+**Mendapatkan Data (SELECT):**
+
+```php
+$this->db->query("SELECT * FROM products WHERE stock > :stock");
+$this->db->bind(':stock', 10);
+$products = $this->db->resultSet(); // Array of Assoc
+```
+
+**Menyimpan Data (INSERT):**
+
+```php
+$this->db->query("INSERT INTO products (name, price) VALUES (:name, :price)");
+$this->db->bind(':name', 'Laptop Gaming');
+$this->db->bind(':price', 15000000);
+$this->db->execute();
+```
+
+### 4. Views (Blade)
+
+Simpan file view di `resources/Views`. Contoh `resources/Views/home.blade.php`:
+
+```html
+@extends('layouts.app') @section('content')
+<h1>Daftar Produk</h1>
+@foreach($products as $product)
+<p>{{ $product['name'] }} - Rp {{ number_format($product['price']) }}</p>
+@endforeach @endsection
+```
+
+Panggil dari Controller:
+
+```php
+return view('home', ['products' => $data]);
+```
+
+### 5. Membuat Database Seeder (Baru!)
+
+Fitur Seeder sekarang mendukung timestamp agar urutan eksekusi terjamin.
+
+**Buat Seeder:**
+
+```bash
+php artisan make:seeder ProductSeeder
+```
+
+File akan terbuat: `database/seeders/2026_01_03_120000_ProductSeeder.php`.
+
+**Isi Seeder:**
+
+```php
+// ... use helper
+public function run() {
+    Seeder::setTable('products');
+    Seeder::create([
+        ['name' => 'Produk A', 'price' => 5000],
+        ['name' => 'Produk B', 'price' => 10000]
+    ]);
+}
+```
+
+**Jalankan:**
+
+```bash
+php artisan db:seed
+```
+
+---
+
+## ⚖️ Lisensi
+
+Project ini dilisensikan di bawah [MIT License](LICENSE).
+Dibuat dengan ❤️ oleh **Chandra Tri Antomo**.

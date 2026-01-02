@@ -18,7 +18,7 @@ class Router
     /**
      * Tambah route baru (ikut group prefix dan middleware)
      */
-    public static function add(string $method, string $path, $controllerOrCallback, string $function = null, array $middlewares = [])
+    public static function add(string $method, string $path, $controllerOrCallback, ?string $function = null, array $middlewares = [])
     {
         $prefix = '';
         $groupMiddlewares = [];
@@ -29,7 +29,7 @@ class Router
                 $prefix .= rtrim($group['prefix'], '/');
             }
             if (!empty($group['middleware'])) {
-                $groupMiddlewares = array_merge($groupMiddlewares, (array)$group['middleware']);
+                $groupMiddlewares = array_merge($groupMiddlewares, (array) $group['middleware']);
             }
         }
 
@@ -45,19 +45,19 @@ class Router
 
         // Simpan untuk runtime
         self::$routes[] = [
-            'method'     => strtoupper($method),
-            'path'       => $compiledPattern,
-            'handler'    => $controllerOrCallback,
-            'function'   => $function,
+            'method' => strtoupper($method),
+            'path' => $compiledPattern,
+            'handler' => $controllerOrCallback,
+            'function' => $function,
             'middleware' => $middlewares
         ];
 
         // Simpan untuk cache
         self::$routeDefinitions[] = [
-            'method'     => strtoupper($method),
-            'path'       => $fullPath,
-            'handler'    => $controllerOrCallback,
-            'function'   => $function,
+            'method' => strtoupper($method),
+            'path' => $fullPath,
+            'handler' => $controllerOrCallback,
+            'function' => $function,
             'middleware' => $middlewares
         ];
     }
@@ -93,7 +93,7 @@ class Router
             exit;
         }
 
-        $path   = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
         // Static assets
@@ -106,7 +106,8 @@ class Router
 
         try {
             foreach (self::$routes as $route) {
-                if ($method !== $route['method']) continue;
+                if ($method !== $route['method'])
+                    continue;
 
                 if (preg_match($route['path'], $path, $matches)) {
                     // Middleware
@@ -125,8 +126,8 @@ class Router
                         if (!class_exists($route['handler'])) {
                             throw new Exception("Controller {$route['handler']} tidak ditemukan");
                         }
-                        $controller = new $route['handler']();
-                        $function   = $route['function'];
+                        $controller = Container::getInstance()->make($route['handler']);
+                        $function = $route['function'];
                         if (!method_exists($controller, $function)) {
                             throw new Exception("Method {$function} tidak ditemukan di {$route['handler']}");
                         }
@@ -152,13 +153,14 @@ class Router
     private static function registerErrorHandlers()
     {
         set_error_handler(function ($severity, $message, $file, $line) {
-            if (!(error_reporting() & $severity)) return;
+            if (!(error_reporting() & $severity))
+                return;
             if (in_array($severity, [E_WARNING, E_USER_WARNING, E_NOTICE, E_USER_NOTICE])) {
                 if (Config::get('APP_ENV') !== 'production') {
                     DebugController::showWarning([
                         'message' => $message,
-                        'file'    => $file,
-                        'line'    => $line
+                        'file' => $file,
+                        'line' => $line
                     ]);
                 }
             }
@@ -220,19 +222,19 @@ class Router
 
         $ext = strtolower(pathinfo($fullPath, PATHINFO_EXTENSION));
         $mime = match ($ext) {
-            'css'   => 'text/css',
-            'js'    => 'application/javascript',
+            'css' => 'text/css',
+            'js' => 'application/javascript',
             'jpg', 'jpeg' => 'image/jpeg',
-            'png'   => 'image/png',
-            'gif'   => 'image/gif',
-            'svg'   => 'image/svg+xml',
-            'webp'  => 'image/webp',
-            'woff'  => 'font/woff',
+            'png' => 'image/png',
+            'gif' => 'image/gif',
+            'svg' => 'image/svg+xml',
+            'webp' => 'image/webp',
+            'woff' => 'font/woff',
             'woff2' => 'font/woff2',
-            'ttf'   => 'font/ttf',
-            'otf'   => 'font/otf',
-            'eot'   => 'application/vnd.ms-fontobject',
-            'ico'   => 'image/x-icon',
+            'ttf' => 'font/ttf',
+            'otf' => 'font/otf',
+            'eot' => 'application/vnd.ms-fontobject',
+            'ico' => 'image/x-icon',
             'json', 'map' => 'application/json',
             default => mime_content_type($fullPath) ?: 'application/octet-stream'
         };
@@ -256,7 +258,8 @@ class Router
 
     private static function handle500(Exception $e)
     {
-        if (ob_get_length()) ob_end_clean();
+        if (ob_get_length())
+            ob_end_clean();
         http_response_code(500);
         if (Config::get('APP_ENV') === 'production') {
             (new ErrorController())->error500();
@@ -268,7 +271,8 @@ class Router
 
     private static function handle404()
     {
-        if (ob_get_length()) ob_end_clean();
+        if (ob_get_length())
+            ob_end_clean();
         http_response_code(404);
         (new ErrorController())->error404();
         exit;
